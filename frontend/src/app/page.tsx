@@ -61,17 +61,16 @@
 // }
 
 
-
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { TextInput, Button, Container, Text, Box, Center } from '@mantine/core';
 import io from 'socket.io-client';
 
 export default function Home() {
   const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState<string[]>([]);
   const [socket, setSocket] = useState<any>(null);
-  const listRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     const newSocket = io('http://localhost:3500', { withCredentials: true });
@@ -79,19 +78,17 @@ export default function Home() {
 
     newSocket.on('message', (data: string) => {
       console.log(`client received: ${data}`);
-      if (listRef.current) {
-        const newMessage = document.createElement('li');
-        newMessage.textContent = data;
-        listRef.current.appendChild(newMessage);
-      }
+      setMessages(prev => [...prev, data]);
     });
 
-    return () =>{ newSocket.disconnect()};
+    return () => {
+      newSocket.disconnect();
+    };
   }, []);
 
   const sendMessage = () => {
-    if (socket) {
-      socket.emit('message', message);
+    if (socket && message.trim() !== '') {
+      socket.emit('message', message.trim());
       setMessage('');
     }
   };
@@ -165,7 +162,6 @@ export default function Home() {
         </Button>
 
         <ul
-          ref={listRef}
           style={{
             marginTop: '20px',
             backgroundColor: '#fff',
@@ -177,11 +173,17 @@ export default function Home() {
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
-            padding: '10px',
+            padding: '20px',
             overflowY: 'auto',
             whiteSpace: 'pre-wrap',
           }}
-        ></ul>
+        >
+          {messages.map((msg, i) => (
+            <li key={i} style={{ marginBottom: '5px' }}>
+              {msg}
+            </li>
+          ))}
+        </ul>
       </Container>
     </Box>
   );

@@ -41,8 +41,8 @@ const expressServer = app.listen(PORT, () => {
 const io = new Server(expressServer,{
     cors:{
         origin:[
-         'http://localhost:3000',
-      'http://127.0.0.1:3000'
+        'http://localhost:3000',
+        'http://127.0.0.1:3000'
     ],
     methods: ['GET', 'POST'],
     credentials: true
@@ -53,7 +53,12 @@ io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`)
     socket.on('message', (data) => {
         console.log(`server received: ${data}`);
-        socket.emit('message',`${socket.id.substring(0,5)}: ${data}`)
+        // socket.emit('message',`${socket.id.substring(0,5)}: ${data}`)
+        io.emit('message',`${socket.id.substring(0,5)}: ${data}`)
+        console.log(`massage sent ${data}`)
     });
+    socket.on('disconnect', () =>{
+        console.log(`user ${socket.id.substring(0,5)} is disconnected.`)
+    })
 });
 

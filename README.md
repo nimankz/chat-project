@@ -23,7 +23,7 @@ npm or Yarn
 
 ## 1. Clone the Repository
 ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/nimankz/chat-project.git
     cd chat-app
 ```
 ## 2. Backend Setup

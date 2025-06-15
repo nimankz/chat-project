@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { TextInput, Button, Container, Text, Box, Modal, Group, Paper, Stack, Flex, Center } from '@mantine/core';
 import { io, Socket } from 'socket.io-client';
 
+
 export default function Home() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<string[]>([]);
@@ -78,7 +79,7 @@ export default function Home() {
         padding="lg"
         overlayProps={{ opacity: 0.6, blur: 3 }}
         transitionProps={{ transition: 'fade', duration: 300 }}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',gap:"20px", height:'25%' }}
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',gap:"20px", height:'25%' }}
       >
         <TextInput
           placeholder="Your username"
@@ -92,7 +93,6 @@ export default function Home() {
               height: '48px',
               fontFamily: "'Inter', Arial, sans-serif",
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-              , marginTop: '10px'
             },
           }}
         />
@@ -102,7 +102,7 @@ export default function Home() {
             size="md"
             variant="filled"
             color="blue"
-            style={{marginTop: '10px'}}
+            style={{ marginTop: '20px' }}
           >
             Join Chat
           </Button>
@@ -233,10 +233,9 @@ export default function Home() {
               />
               <Button
                 onClick={sendMessage}
-                color="blue"
                 disabled={!username || !message.trim()}
                 radius="md"
-                style={{ height: '48px', width: '100px',marginTop: "20px", backgroundColor: '' }}
+                style={{ height: '48px', width: '100px', backgroundColor: '#00B5FF', color: 'white', textColor: 'white' }}
                 size="md"
               >
                 Send
